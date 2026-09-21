@@ -1,0 +1,204 @@
+---
+import Icon from './Icon.astro';
+import SectionHeading from './SectionHeading.astro';
+import { site } from '../data/site';
+---
+
+<section id="contatti" class="section contact" aria-labelledby="contact-title">
+  <div class="container">
+    <SectionHeading
+      eyebrow="Dove siamo e contatti"
+      title="Harmonie ti aspetta ad Agira."
+      intro="Siamo in Via Vittorio Emanuele, vicino a Piazza Garibaldi. Scrivi o chiama per informazioni e prenotazioni."
+      headingId="contact-title"
+    />
+
+    <div class="contact-grid">
+      <div class="contact-details card">
+        <a href={site.contact.phoneHref} class="contact-row">
+          <span><Icon name="phone" /></span>
+          <div>
+            <small>Telefono</small>
+            <strong>{site.contact.phoneDisplay}</strong>
+          </div>
+        </a>
+        <a href={`mailto:${site.contact.email}`} class="contact-row">
+          <span><Icon name="mail" /></span>
+          <div>
+            <small>Email</small>
+            <strong>{site.contact.email}</strong>
+          </div>
+        </a>
+        <div class="contact-actions">
+          <a class="button button--primary" href={site.contact.whatsapp} target="_blank" rel="noopener noreferrer">
+            <Icon name="whatsapp" /> Scrivi su WhatsApp
+          </a>
+          <a class="button button--secondary" href={site.contact.phoneHref}>
+            <Icon name="phone" /> Chiama lo studio
+          </a>
+        </div>
+      </div>
+
+      <div class="location-card">
+        <div class="location-icon"><Icon name="map" size={25} /></div>
+        <p class="location-kicker">Lo studio</p>
+        <h3>{site.address.street}</h3>
+        <address>
+          <p>{site.address.postalCode} {site.address.locality} ({site.address.province})</p>
+          <p class="location-note">{site.address.note}</p>
+        </address>
+        <a href={site.contact.maps} target="_blank" rel="noopener noreferrer">
+          Apri in Google Maps <Icon name="arrow" size={18} />
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact-grid {
+    display: grid;
+    gap: var(--space-4);
+  }
+
+  .contact-details {
+    display: grid;
+    padding: var(--space-5);
+  }
+
+  .contact-row {
+    display: grid;
+    grid-template-columns: 3rem minmax(0, 1fr);
+    gap: var(--space-4);
+    align-items: center;
+    min-height: 5rem;
+    border-bottom: 1px solid var(--color-border);
+    text-decoration: none;
+  }
+
+  .contact-row > span {
+    display: grid;
+    width: 3rem;
+    height: 3rem;
+    place-items: center;
+    color: var(--color-sage-900);
+    background: var(--color-sage-200);
+    border-radius: 50%;
+  }
+
+  .contact-row div {
+    min-width: 0;
+  }
+
+  .contact-row small,
+  .contact-row strong {
+    display: block;
+  }
+
+  .contact-row small {
+    color: var(--color-muted);
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+  }
+
+  .contact-row strong {
+    overflow-wrap: anywhere;
+    font-size: clamp(0.96rem, 2.5vw, 1.12rem);
+  }
+
+  .contact-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+    padding-top: var(--space-5);
+  }
+
+  .location-card {
+    position: relative;
+    overflow: hidden;
+    min-height: 23rem;
+    padding: clamp(2rem, 6vw, 4rem);
+    color: var(--color-white);
+    background:
+      linear-gradient(145deg, rgba(51, 66, 52, 0.92), rgba(63, 80, 63, 0.98)),
+      var(--color-sage-900);
+    border-radius: var(--radius-lg);
+    box-shadow: var(--shadow-card);
+  }
+
+  .location-card address {
+    font-style: normal;
+  }
+
+  .location-card::after {
+    position: absolute;
+    right: -5rem;
+    bottom: -5rem;
+    width: 14rem;
+    height: 14rem;
+    border: 1px solid rgba(255, 255, 255, 0.18);
+    content: '';
+    border-radius: 50%;
+    box-shadow: 0 0 0 2.5rem rgba(255, 255, 255, 0.035), 0 0 0 5rem rgba(255, 255, 255, 0.025);
+  }
+
+  .location-icon {
+    display: grid;
+    width: 3.5rem;
+    height: 3.5rem;
+    place-items: center;
+    margin-bottom: var(--space-5);
+    color: var(--color-sage-900);
+    background: var(--color-sage-200);
+    border-radius: 50%;
+  }
+
+  .location-kicker {
+    margin-bottom: 0.5rem;
+    color: var(--color-sage-200);
+    font-size: var(--step--1);
+    font-weight: 750;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+  }
+
+  .location-card h3 {
+    max-width: 12ch;
+    margin-bottom: 0.65rem;
+    color: var(--color-white);
+    font-size: var(--step-3);
+  }
+
+  .location-card p {
+    margin-bottom: 0.35rem;
+    color: #e8ede6;
+  }
+
+  .location-note {
+    font-size: var(--step--1);
+  }
+
+  .location-card a {
+    position: absolute;
+    z-index: 1;
+    bottom: clamp(2rem, 6vw, 4rem);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    color: var(--color-white);
+    font-weight: 750;
+  }
+
+  @media (min-width: 50rem) {
+    .contact-grid {
+      grid-template-columns: minmax(0, 1fr) minmax(20rem, 0.86fr);
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .contact-actions .button {
+      width: 100%;
+    }
+  }
+</style>

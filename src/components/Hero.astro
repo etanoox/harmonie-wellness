@@ -1,0 +1,200 @@
+---
+import { Picture } from 'astro:assets';
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import heroImage from '../assets/images/harmonie-pilates-studio.webp';
+---
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="container hero-grid">
+    <div class="hero-copy">
+      <p class="eyebrow">Pilates &amp; benessere ad Agira</p>
+      <h1 id="hero-title">Il movimento incontra il tuo equilibrio.</h1>
+      <p class="hero-intro">
+        Uno spazio accogliente dove coltivare forza, consapevolezza e presenza attraverso il Pilates.
+        Le attività sono dedicate ai soci di {site.name}.
+      </p>
+      <div class="hero-actions">
+        <a class="button button--primary" href={site.contact.whatsapp} target="_blank" rel="noopener noreferrer">
+          <Icon name="whatsapp" />
+          Prenota una lezione
+        </a>
+        <a class="button button--secondary" href="#harmonie">
+          Scopri Harmonie
+          <Icon name="arrow" />
+        </a>
+      </div>
+      <p class="hero-note"><Icon name="map" size={18} /> {site.address.street}, {site.address.locality}</p>
+    </div>
+
+    <div class="hero-visual">
+      <div class="hero-image">
+        <Picture
+          src={heroImage}
+          formats={['avif', 'webp']}
+          fallbackFormat="webp"
+          widths={[420, 642]}
+          sizes="(max-width: 767px) calc(100vw - 2rem), 42vw"
+          alt="Chiara Manno esegue una posizione di equilibrio nella sala Pilates di Harmonie"
+          loading="eager"
+          fetchpriority="high"
+          decoding="async"
+        />
+      </div>
+      <blockquote class="hero-quote">
+        <span aria-hidden="true">“</span>
+        <p>{site.claim}</p>
+      </blockquote>
+      <svg class="hero-leaf" viewBox="0 0 130 170" aria-hidden="true">
+        <path d="M22 158C50 115 77 73 107 16M45 124c-16-4-28-14-34-29M59 101c17-1 31-8 42-21M72 77c-13-6-21-16-25-29M86 52c12-2 23-7 31-15"/>
+      </svg>
+    </div>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative;
+    overflow: hidden;
+    padding-block: clamp(3rem, 7vw, 7rem);
+    background:
+      radial-gradient(circle at 8% 8%, rgba(223, 232, 220, 0.9), transparent 35rem),
+      var(--color-cream);
+  }
+
+  .hero::after {
+    position: absolute;
+    right: -8rem;
+    bottom: -12rem;
+    width: 28rem;
+    height: 28rem;
+    border: 1px solid var(--color-sage-300);
+    content: '';
+    border-radius: 50%;
+    opacity: 0.5;
+  }
+
+  .hero-grid {
+    position: relative;
+    z-index: 1;
+    display: grid;
+    gap: var(--space-7);
+    align-items: center;
+  }
+
+  .hero-copy {
+    max-width: 42rem;
+  }
+
+  h1 {
+    max-width: 12ch;
+    margin-bottom: var(--space-5);
+  }
+
+  .hero-intro {
+    max-width: 39rem;
+    margin-bottom: var(--space-5);
+    font-size: var(--step-1);
+  }
+
+  .hero-actions {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.75rem;
+  }
+
+  .hero-note {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: var(--space-5) 0 0;
+    color: var(--color-sage-800);
+    font-size: var(--step--1);
+    font-weight: 700;
+  }
+
+  .hero-visual {
+    position: relative;
+    width: min(100%, 31rem);
+    justify-self: center;
+  }
+
+  .hero-image {
+    position: relative;
+    overflow: hidden;
+    aspect-ratio: 4 / 5.1;
+    border: 0.55rem solid rgba(255, 255, 255, 0.82);
+    border-radius: 48% 48% 1.8rem 1.8rem;
+    box-shadow: var(--shadow-soft);
+  }
+
+  .hero-image :global(picture),
+  .hero-image :global(img) {
+    width: 100%;
+    height: 100%;
+  }
+
+  .hero-image :global(img) {
+    object-fit: cover;
+    object-position: 52% 50%;
+  }
+
+  .hero-quote {
+    position: absolute;
+    right: -0.4rem;
+    bottom: 1.4rem;
+    display: flex;
+    max-width: 12rem;
+    align-items: flex-start;
+    gap: 0.35rem;
+    padding: 0.9rem 1rem;
+    color: var(--color-white);
+    background: var(--color-sage-900);
+    border-radius: var(--radius-md) 0 var(--radius-md) var(--radius-md);
+    box-shadow: var(--shadow-card);
+    margin: 0;
+  }
+
+  .hero-quote span {
+    font-family: var(--font-display);
+    font-size: 2rem;
+    line-height: 0.8;
+  }
+
+  .hero-quote p {
+    margin: 0;
+    color: inherit;
+    font-family: var(--font-display);
+    font-size: 1rem;
+    line-height: 1.25;
+  }
+
+  .hero-leaf {
+    position: absolute;
+    top: -2rem;
+    left: -3rem;
+    width: 8rem;
+    fill: none;
+    stroke: var(--color-sage-500);
+    stroke-linecap: round;
+    stroke-width: 1.2;
+    opacity: 0.65;
+  }
+
+  @media (min-width: 58rem) {
+    .hero-grid {
+      grid-template-columns: minmax(0, 1.05fr) minmax(20rem, 0.78fr);
+      gap: clamp(3rem, 7vw, 7.5rem);
+    }
+
+    .hero-visual {
+      justify-self: end;
+    }
+  }
+
+  @media (max-width: 30rem) {
+    .hero-actions .button {
+      width: 100%;
+    }
+  }
+</style>

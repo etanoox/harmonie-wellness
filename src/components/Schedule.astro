@@ -1,0 +1,121 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+---
+
+<section id="orari" class="section section--dark schedule" aria-labelledby="schedule-title">
+  <div class="container schedule-grid">
+    <div class="schedule-copy">
+      <p class="eyebrow">Orari</p>
+      <h2 id="schedule-title">Il tempo da dedicare a te.</h2>
+      <p>
+        Le lezioni sono disponibili nelle fasce pubblicate e si svolgono esclusivamente su prenotazione.
+        Contatta lo studio per concordare la partecipazione.
+      </p>
+      <a class="button button--light" href={site.contact.whatsapp} target="_blank" rel="noopener noreferrer">
+        <Icon name="whatsapp" />
+        Chiedi disponibilità
+      </a>
+    </div>
+
+    <div class="schedule-list">
+      {site.schedule.map((item) => (
+        <article class="schedule-day">
+          <h3>{item.day}</h3>
+          <div>
+            {item.slots.map((slot) => <time>{slot}</time>)}
+          </div>
+        </article>
+      ))}
+      <p class="schedule-note"><Icon name="calendar" size={18} /> Partecipazione su prenotazione anticipata</p>
+    </div>
+  </div>
+</section>
+
+<style>
+  .schedule {
+    overflow: hidden;
+  }
+
+  .schedule::before {
+    position: absolute;
+    top: -15rem;
+    right: -10rem;
+    width: 34rem;
+    height: 34rem;
+    border: 1px solid rgba(223, 232, 220, 0.17);
+    content: '';
+    border-radius: 50%;
+  }
+
+  .schedule-grid {
+    position: relative;
+    display: grid;
+    gap: var(--space-7);
+  }
+
+  .schedule-copy h2 {
+    max-width: 10ch;
+    margin-bottom: var(--space-4);
+  }
+
+  .schedule-copy > p:not(.eyebrow) {
+    max-width: 36rem;
+    margin-bottom: var(--space-5);
+    color: #e3e9e1;
+    font-size: var(--step-1);
+  }
+
+  .schedule-list {
+    align-self: center;
+    border-top: 1px solid rgba(223, 232, 220, 0.28);
+  }
+
+  .schedule-day {
+    display: grid;
+    gap: var(--space-3);
+    padding-block: var(--space-5);
+    border-bottom: 1px solid rgba(223, 232, 220, 0.28);
+  }
+
+  .schedule-day h3 {
+    margin: 0;
+    font-size: var(--step-2);
+  }
+
+  .schedule-day div {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.55rem;
+  }
+
+  .schedule-day time {
+    padding: 0.55rem 0.75rem;
+    border: 1px solid rgba(255, 255, 255, 0.22);
+    background: rgba(255, 255, 255, 0.08);
+    border-radius: var(--radius-pill);
+    font-size: 0.95rem;
+    font-weight: 700;
+  }
+
+  .schedule-note {
+    display: flex;
+    align-items: center;
+    gap: 0.55rem;
+    margin: var(--space-4) 0 0;
+    color: var(--color-sage-200);
+    font-size: var(--step--1);
+  }
+
+  @media (min-width: 48rem) {
+    .schedule-grid {
+      grid-template-columns: minmax(0, 0.9fr) minmax(22rem, 0.75fr);
+      gap: clamp(4rem, 10vw, 9rem);
+    }
+
+    .schedule-day {
+      grid-template-columns: 0.8fr 1.2fr;
+      align-items: center;
+    }
+  }
+</style>

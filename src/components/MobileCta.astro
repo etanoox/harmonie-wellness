@@ -1,0 +1,57 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+---
+
+<aside class="mobile-cta" aria-label="Contatti rapidi">
+  <a href={site.contact.phoneHref}>
+    <Icon name="phone" size={19} />
+    Chiama
+  </a>
+  <a href={site.contact.whatsapp} target="_blank" rel="noopener noreferrer">
+    <Icon name="whatsapp" size={19} />
+    Prenota
+  </a>
+</aside>
+
+<style>
+  .mobile-cta {
+    position: fixed;
+    z-index: 45;
+    right: 0.75rem;
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
+    left: 0.75rem;
+    display: grid;
+    grid-template-columns: 0.8fr 1.2fr;
+    padding: 0.35rem;
+    border: 1px solid rgba(197, 212, 192, 0.86);
+    background: rgba(252, 251, 247, 0.94);
+    border-radius: var(--radius-pill);
+    box-shadow: 0 0.8rem 2.3rem rgba(38, 48, 39, 0.2);
+    backdrop-filter: blur(16px);
+  }
+
+  .mobile-cta a {
+    display: inline-flex;
+    min-height: 3rem;
+    align-items: center;
+    justify-content: center;
+    gap: 0.45rem;
+    color: var(--color-sage-900);
+    border-radius: var(--radius-pill);
+    font-size: 0.9rem;
+    font-weight: 800;
+    text-decoration: none;
+  }
+
+  .mobile-cta a:last-child {
+    color: var(--color-white);
+    background: var(--color-sage-900);
+  }
+
+  @media (min-width: 48rem) {
+    .mobile-cta {
+      display: none;
+    }
+  }
+</style>

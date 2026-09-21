@@ -1,0 +1,268 @@
+---
+import Icon from './Icon.astro';
+import { site } from '../data/site';
+import logo from '../assets/images/harmoniewellness-logo.webp';
+import { Image } from 'astro:assets';
+---
+
+<header class="site-header" data-header>
+  <div class="container header-inner">
+    <a class="brand" href="/" aria-label={`${site.name} — Home`}>
+      <Image src={logo} alt="" width={108} height={108} loading="eager" decoding="async" />
+      <span>
+        <strong>Harmonie</strong>
+        <small>Pilates &amp; Wellness</small>
+      </span>
+    </a>
+
+    <button
+      class="menu-toggle"
+      type="button"
+      aria-expanded="false"
+      aria-controls="primary-navigation"
+      aria-label="Apri il menu"
+      data-menu-toggle
+    >
+      <span data-menu-icon><Icon name="menu" /></span>
+      <span data-close-icon hidden><Icon name="x" /></span>
+    </button>
+
+    <nav id="primary-navigation" class="site-nav" aria-label="Navigazione principale" data-nav>
+      <ul>
+        {site.navigation.map((item) => (
+          <li><a href={`/${item.href}`} data-nav-link>{item.label}</a></li>
+        ))}
+      </ul>
+      <a class="header-cta" href={site.contact.whatsapp} target="_blank" rel="noopener noreferrer">
+        Prenota
+        <Icon name="arrow" size={17} />
+      </a>
+    </nav>
+  </div>
+</header>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-menu-toggle]');
+  const nav = document.querySelector<HTMLElement>('[data-nav]');
+  const menuIcon = document.querySelector<HTMLElement>('[data-menu-icon]');
+  const closeIcon = document.querySelector<HTMLElement>('[data-close-icon]');
+
+  const closeMenu = () => {
+    toggle?.setAttribute('aria-expanded', 'false');
+    toggle?.setAttribute('aria-label', 'Apri il menu');
+    nav?.removeAttribute('data-open');
+    document.body.classList.remove('menu-open');
+    if (menuIcon) menuIcon.hidden = false;
+    if (closeIcon) closeIcon.hidden = true;
+  };
+
+  toggle?.addEventListener('click', () => {
+    const isOpen = toggle.getAttribute('aria-expanded') === 'true';
+    if (isOpen) {
+      closeMenu();
+      return;
+    }
+    toggle.setAttribute('aria-expanded', 'true');
+    toggle.setAttribute('aria-label', 'Chiudi il menu');
+    nav?.setAttribute('data-open', '');
+    document.body.classList.add('menu-open');
+    if (menuIcon) menuIcon.hidden = true;
+    if (closeIcon) closeIcon.hidden = false;
+  });
+
+  document.querySelectorAll('[data-nav-link]').forEach((link) => link.addEventListener('click', closeMenu));
+  window.addEventListener('keydown', (event) => {
+    if (event.key === 'Escape') closeMenu();
+  });
+  window.matchMedia('(min-width: 768px)').addEventListener('change', closeMenu);
+</script>
+
+<style>
+  .site-header {
+    position: sticky;
+    z-index: 50;
+    top: 0;
+    height: var(--header-height);
+    border-bottom: 1px solid rgba(197, 212, 192, 0.7);
+    background: rgba(252, 251, 247, 0.92);
+    backdrop-filter: blur(16px);
+  }
+
+  .header-inner {
+    display: flex;
+    height: 100%;
+    align-items: center;
+    justify-content: space-between;
+  }
+
+  .brand {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    text-decoration: none;
+  }
+
+  .brand :global(img) {
+    width: 3.55rem;
+    height: 3.55rem;
+    border-radius: 50%;
+    object-fit: cover;
+    object-position: 31% 50%;
+  }
+
+  .brand span {
+    display: grid;
+    line-height: 1.05;
+  }
+
+  .brand strong {
+    font-family: var(--font-display);
+    font-size: 1.32rem;
+    font-weight: 600;
+  }
+
+  .brand small {
+    margin-top: 0.2rem;
+    color: var(--color-muted);
+    font-size: 0.73rem;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+  }
+
+  .menu-toggle {
+    display: none;
+    width: 3rem;
+    height: 3rem;
+    place-items: center;
+    padding: 0;
+    border: 1px solid var(--color-border);
+    color: var(--color-sage-900);
+    background: var(--color-white);
+    border-radius: 50%;
+    cursor: pointer;
+  }
+
+  .site-nav,
+  .site-nav ul {
+    display: flex;
+    align-items: center;
+  }
+
+  .site-nav {
+    gap: 1.3rem;
+  }
+
+  .site-nav ul {
+    gap: clamp(0.85rem, 1.8vw, 1.6rem);
+    padding: 0;
+    margin: 0;
+    list-style: none;
+  }
+
+  .site-nav a {
+    font-size: 0.91rem;
+    font-weight: 700;
+    text-decoration: none;
+  }
+
+  .site-nav ul a {
+    position: relative;
+  }
+
+  .site-nav ul a::after {
+    position: absolute;
+    right: 0;
+    bottom: -0.4rem;
+    left: 0;
+    height: 1px;
+    content: '';
+    background: var(--color-sage-700);
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 180ms ease;
+  }
+
+  .site-nav ul a:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  .header-cta {
+    display: inline-flex;
+    min-height: 2.8rem;
+    align-items: center;
+    gap: 0.45rem;
+    padding-inline: 1.05rem;
+    color: var(--color-white);
+    background: var(--color-sage-900);
+    border-radius: var(--radius-pill);
+  }
+
+  @media (max-width: 47.99rem) {
+    :global(.js) .menu-toggle {
+      display: grid;
+    }
+
+    .site-nav {
+      position: fixed;
+      top: calc(var(--header-height) + 0.5rem);
+      right: 1rem;
+      left: 1rem;
+      display: flex;
+      flex-direction: column;
+      align-items: stretch;
+      max-height: calc(100dvh - var(--header-height) - 2rem);
+      overflow: auto;
+      padding: 1rem;
+      border: 1px solid var(--color-border);
+      background: var(--color-white);
+      border-radius: var(--radius-md);
+      box-shadow: var(--shadow-soft);
+    }
+
+    :global(.js) .site-nav {
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(-0.75rem);
+      transition: opacity 160ms ease, transform 160ms ease;
+    }
+
+    :global(.js) .site-nav[data-open] {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .site-nav ul {
+      display: grid;
+      gap: 0;
+    }
+
+    .site-nav ul a {
+      display: flex;
+      min-height: 3.2rem;
+      align-items: center;
+      border-bottom: 1px solid var(--color-border);
+      font-size: 1rem;
+    }
+
+    .site-nav ul li:last-child a {
+      border-bottom: 0;
+    }
+
+    .site-nav ul a::after {
+      display: none;
+    }
+
+    .header-cta {
+      justify-content: center;
+    }
+  }
+
+  @media (max-width: 23rem) {
+    .brand small {
+      display: none;
+    }
+  }
+</style>
