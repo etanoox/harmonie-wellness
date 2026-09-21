@@ -1,0 +1,10 @@
+import { readFile, writeFile, mkdir, rm } from 'node:fs/promises';
+import { render } from '../.prerender/entry-server.js';
+const base='https://harmoniewellness.it';
+const template=await readFile('dist/index.html','utf8');
+const pages=[['/','index.html','Pilates ad Agira | ASD Harmonie Pilates & Wellness'],['/privacy/','privacy/index.html','Privacy Policy | Harmonie'],['/cookie-policy/','cookie-policy/index.html','Cookie Policy | Harmonie'],['/404/','404.html','Pagina non trovata | Harmonie']];
+const schema={'@context':'https://schema.org','@type':'SportsActivityLocation',name:'ASD Harmonie Pilates & Wellness',url:base,telephone:'+393451278532',email:'studioasdharmonie@gmail.com',address:{'@type':'PostalAddress',streetAddress:'Via Vittorio Emanuele 379',addressLocality:'Agira',addressRegion:'Sicilia',postalCode:'94011',addressCountry:'IT'},openingHoursSpecification:['Monday','Wednesday'].flatMap(day=>[['09:30','12:30'],['16:00','20:30']].map(([opens,closes])=>({'@type':'OpeningHoursSpecification',dayOfWeek:`https://schema.org/${day}`,opens,closes})))};
+for(const [route,file,title] of pages){let html=template.replace('<!--app-html-->',render(route)).replace(/<title>.*?<\/title>/,`<title>${title}</title>`).replace(/(<meta property="og:title" content=")[^"]*("\/>)/,`$1${title}$2`).replace(/(<link rel="canonical" href=")[^"]*("\/>)/,`$1${base+route}$2`).replace(/(<meta property="og:url" content=")[^"]*("\/>)/,`$1${base+route}$2`).replace('<!--page-meta-->',route==='/'?`<script type="application/ld+json">${JSON.stringify(schema)}</script>`:route==='/404/'?'<meta name="robots" content="noindex,follow"/>':'');if(file.includes('/'))await mkdir(`dist/${file.split('/')[0]}`,{recursive:true});await writeFile(`dist/${file}`,html);}
+await writeFile('dist/sitemap.xml',`<?xml version="1.0" encoding="UTF-8"?><urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">${pages.slice(0,3).map(([route])=>`<url><loc>${base+route}</loc></url>`).join('')}</urlset>`);
+await rm('.prerender',{recursive:true,force:true});
+console.log('Prerender completato: home, privacy, cookie, 404 e sitemap.');

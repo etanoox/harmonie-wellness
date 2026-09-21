@@ -1,18 +1,6 @@
-# dependencies
 node_modules/
-
-# build output
 dist/
-.astro/
-
-# environment and local files
+.prerender/
 .env
 .env.*
-!.env.example
 .DS_Store
-*.log
-
-# audits and local previews
-.lighthouseci/
-lighthouse-*.html
-previews/
