@@ -28,10 +28,12 @@ export const site = {
     maps:
       'https://www.google.com/maps/search/?api=1&query=Via%20Vittorio%20Emanuele%20379%2C%2094011%20Agira%20EN',
   },
-  schedule: [
-    { day: 'Lunedì', slots: ['09:30–12:30', '16:00–20:30'] },
-    { day: 'Mercoledì', slots: ['09:30–12:30', '16:00–20:30'] },
-  ],
+schedule: [
+  {
+    day: 'Dal lunedì al giovedì',
+    slots: ['09:30–12:30', '16:00–20:30'],
+  },
+],
   lesson: {
     duration: '60 minuti',
     booking: 'La prenotazione anticipata è necessaria per partecipare.',
