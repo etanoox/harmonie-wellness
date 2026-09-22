@@ -33,7 +33,7 @@ export const site = {
     { day: 'Mercoledì', slots: ['09:30–12:30', '16:00–20:30'] },
   ],
   lesson: {
-    duration: '55 minuti',
+    duration: '60 minuti',
     booking: 'La prenotazione anticipata è necessaria per partecipare.',
     membership: 'Le attività sono riservate esclusivamente ai soci dell’associazione.',
     clothing: 'Indossa abiti comodi e porta calzini da usare soltanto in sala.',
